@@ -5,6 +5,8 @@ The aim of this project is to implement a Minimax algorithm using Java. The user
 
 ### Input and output
 
+The project uses a JavaFX interface.
+
 ### Study programme
 Computer science (BSc)
 
