@@ -1,4 +1,6 @@
-# Week 1
+# Week 2
+
+[Hours](https://github.com/alanenpa/Connect-Four/blob/main/Documentation/Reports/Hours.md)
 
 ## What I did
 - Installed a new JDK to get everything working.
