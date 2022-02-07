@@ -88,7 +88,7 @@ public class Board {
      * @return input parsed as integer, if valid. Otherwise returns -1
      */
     public int validate(String input) {
-        if (input.chars().allMatch(Character::isDigit)) {
+        if (input.chars().allMatch(Character::isDigit) && !input.equals("")) {
             int inputInt = Integer.parseInt(input);
             if (inputInt >= 1 && inputInt <= 7) {
                 return inputInt;
