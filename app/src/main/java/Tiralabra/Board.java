@@ -119,4 +119,7 @@ public class Board {
         }
     }
 
+    public char[][] getGrid() {
+        return grid;
+    }
 }
