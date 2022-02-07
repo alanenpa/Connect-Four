@@ -6,7 +6,7 @@ package Tiralabra;
 public class Board {
     private final int HEIGHT = 6;
     private final int WIDTH = 29;
-    private final int COl_SPACE = 4; // space between the columns
+    private final int COL_SPACE = 4; // space between the columns
     private final String GRID_ROW = "|   |   |   |   |   |   |   |";
     private char[][] grid;
 
@@ -45,7 +45,7 @@ public class Board {
         // check rows
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 2; j < lastColumn-12; j+=4) {
-                if (this.grid[i][j] == player && this.grid[i][j+COl_SPACE] == player && this.grid[i][j+COl_SPACE*2] == player && this.grid[i][j+COl_SPACE*3] == player) {
+                if (this.grid[i][j] == player && this.grid[i][j+ COL_SPACE] == player && this.grid[i][j+ COL_SPACE *2] == player && this.grid[i][j+ COL_SPACE *3] == player) {
                     return true;
                 }
             }
@@ -61,7 +61,7 @@ public class Board {
         // check ascending diagonals
         for (int i = 3; i < HEIGHT; i++) {
             for (int j = 2; j < 15; j+=4) {
-                if (this.grid[i][j] == player && this.grid[i-1][j+COl_SPACE] == player && this.grid[i-2][j+COl_SPACE*2] == player && this.grid[i-3][j+COl_SPACE*3] == player) {
+                if (this.grid[i][j] == player && this.grid[i-1][j+ COL_SPACE] == player && this.grid[i-2][j+ COL_SPACE *2] == player && this.grid[i-3][j+ COL_SPACE *3] == player) {
                     return true;
                 }
             }
@@ -69,7 +69,7 @@ public class Board {
         // check descending diagonals
         for (int i = 0; i < HEIGHT - 3; i++) {
             for (int j = 2; j < 15; j+=4) {
-                if (this.grid[i][j] == player && this.grid[i+1][j+COl_SPACE] == player && this.grid[i+2][j+COl_SPACE*2] == player && this.grid[i+3][j+COl_SPACE*3] == player) {
+                if (this.grid[i][j] == player && this.grid[i+1][j+ COL_SPACE] == player && this.grid[i+2][j+ COL_SPACE *2] == player && this.grid[i+3][j+ COL_SPACE *3] == player) {
                     return true;
                 }
             }
