@@ -14,8 +14,8 @@ public class Board {
      * Initializes the 7x6 gameboard with some extra space
      */
     public Board() {
-        this.grid = new char[this.HEIGHT][this.WIDTH];
-        for (int i = 0; i < this.HEIGHT; i++) {
+        this.grid = new char[HEIGHT][WIDTH];
+        for (int i = 0; i < HEIGHT; i++) {
             this.grid[i] = this.GRID_ROW.toCharArray();
         }
     }
@@ -27,7 +27,7 @@ public class Board {
      */
     public void makeAMove(int columnNum, char player) {
         int columnCoordinate = convert(columnNum);
-        for (int i = this.HEIGHT-1; i >= 0; i--) {
+        for (int i = HEIGHT-1; i >= 0; i--) {
             if (this.grid[i][columnCoordinate] == ' ') {
                 this.grid[i][columnCoordinate] = player;
                 if (areFourConnected(player)) {
@@ -46,35 +46,35 @@ public class Board {
      * @return true if four discs are connected, false if not
      */
     public boolean areFourConnected(int player) {
-        int lastColumn = this.WIDTH - 2;
+        int lastColumn = WIDTH - 2;
         // check rows
-        for (int i = 0; i < this.HEIGHT; i++) {
+        for (int i = 0; i < HEIGHT; i++) {
             for (int j = 2; j < lastColumn-12; j+=4) {
-                if (this.grid[i][j] == player && this.grid[i][j+this.COl_SPACE] == player && this.grid[i][j+this.COl_SPACE*2] == player && this.grid[i][j+this.COl_SPACE*3] == player) {
+                if (this.grid[i][j] == player && this.grid[i][j+COl_SPACE] == player && this.grid[i][j+COl_SPACE*2] == player && this.grid[i][j+COl_SPACE*3] == player) {
                     return true;
                 }
             }
         }
         // check columns
-        for (int i = 0; i < this.HEIGHT - 3; i++) {
-            for (int j = 2; j < this.WIDTH; j+=4) {
+        for (int i = 0; i < HEIGHT - 3; i++) {
+            for (int j = 2; j < WIDTH; j+=4) {
                 if (this.grid[i][j] == player && this.grid[i+1][j] == player && this.grid[i+2][j] == player && this.grid[i+3][j] == player) {
                     return true;
                 }
             }
         }
         // check ascending diagonals
-        for (int i = 3; i < this.HEIGHT; i++) {
+        for (int i = 3; i < HEIGHT; i++) {
             for (int j = 2; j < 15; j+=4) {
-                if (this.grid[i][j] == player && this.grid[i-1][j+this.COl_SPACE] == player && this.grid[i-2][j+this.COl_SPACE*2] == player && this.grid[i-3][j+this.COl_SPACE*3] == player) {
+                if (this.grid[i][j] == player && this.grid[i-1][j+COl_SPACE] == player && this.grid[i-2][j+COl_SPACE*2] == player && this.grid[i-3][j+COl_SPACE*3] == player) {
                     return true;
                 }
             }
         }
         // check descending diagonals
-        for (int i = 0; i < this.HEIGHT - 3; i++) {
+        for (int i = 0; i < HEIGHT - 3; i++) {
             for (int j = 2; j < 15; j+=4) {
-                if (this.grid[i][j] == player && this.grid[i+1][j+this.COl_SPACE] == player && this.grid[i+2][j+this.COl_SPACE*2] == player && this.grid[i+3][j+this.COl_SPACE*3] == player) {
+                if (this.grid[i][j] == player && this.grid[i+1][j+COl_SPACE] == player && this.grid[i+2][j+COl_SPACE*2] == player && this.grid[i+3][j+COl_SPACE*3] == player) {
                     return true;
                 }
             }
@@ -116,8 +116,8 @@ public class Board {
     }
 
     public void print() {
-        for (int i = 0; i < this.HEIGHT; i++) {
-            for (int j = 0; j < this.WIDTH; j++) {
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
                 System.out.print(this.grid[i][j]);
             }
             System.out.println();
