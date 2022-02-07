@@ -16,7 +16,7 @@ public class Board {
     public Board() {
         this.grid = new char[HEIGHT][WIDTH];
         for (int i = 0; i < HEIGHT; i++) {
-            this.grid[i] = this.GRID_ROW.toCharArray();
+            this.grid[i] = GRID_ROW.toCharArray();
         }
     }
 
@@ -30,11 +30,6 @@ public class Board {
         for (int i = HEIGHT-1; i >= 0; i--) {
             if (this.grid[i][columnCoordinate] == ' ') {
                 this.grid[i][columnCoordinate] = player;
-                if (areFourConnected(player)) {
-                    System.out.println(player  + " wins!");
-                    print();
-                    System.exit(0);
-                }
                 break;
             }
         }

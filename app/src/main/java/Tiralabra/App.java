@@ -21,6 +21,10 @@ public class App {
             if (inputInt == -1) break;
             board.makeAMove(inputInt, player);
             board.print();
+            if (board.areFourConnected(player)) {
+                System.out.println(player  + " wins!");
+                break;
+            }
         }
         System.out.println("Thanks for playing!");
     }
