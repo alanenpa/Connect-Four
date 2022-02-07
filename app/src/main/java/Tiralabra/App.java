@@ -12,14 +12,14 @@ public class App {
         board.print();
 
         while (true) {
-            char disc = referee.getDisc();
+            char player = referee.useTurn();
 
             System.out.println("Choose a column to play (1-7)");
             String input = scanner.nextLine();
 
-            int inputInt = board.parseMove(input);
+            int inputInt = board.validate(input);
             if (inputInt == -1) break;
-            board.makeAMove(inputInt, disc);
+            board.makeAMove(inputInt, player);
             board.print();
         }
         System.out.println("Thanks for playing!");
