@@ -1,29 +1,93 @@
 package Tiralabra;
 
+/**
+ * Controls the gameboard
+ */
 public class Board {
     private final int HEIGHT = 6;
     private final int WIDTH = 29;
+    private final int COl_SPACE = 4; // space between the columns
     private final String GRID_ROW = "|   |   |   |   |   |   |   |";
     private char[][] grid;
 
+    /**
+     * Initializes the 7x6 gameboard with some extra space
+     */
     public Board() {
-        this.grid = new char[this.HEIGHT][this.WIDTH]; // 7x6 gameboard with some space
-        for (int i = 0; i < 6; i++) {
+        this.grid = new char[this.HEIGHT][this.WIDTH];
+        for (int i = 0; i < this.HEIGHT; i++) {
             this.grid[i] = this.GRID_ROW.toCharArray();
         }
     }
 
-    public void makeAMove(int input, char disc) {
-        int column = convertMove(input);
-        for (int i = 5; i >= 0; i--) {
-            if (this.grid[i][column] == ' ') {
-                this.grid[i][column] = disc;
+    /**
+     * Marks the board with current players disc
+     * @param columnNum column number, gets converted to a coordinate on the board
+     * @param player current players disc: 'X' or 'O'
+     */
+    public void makeAMove(int columnNum, char player) {
+        int columnCoordinate = convert(columnNum);
+        for (int i = this.HEIGHT-1; i >= 0; i--) {
+            if (this.grid[i][columnCoordinate] == ' ') {
+                this.grid[i][columnCoordinate] = player;
+                if (areFourConnected(player)) {
+                    System.out.println(player  + " wins!");
+                    print();
+                    System.exit(0);
+                }
                 break;
             }
         }
     }
 
-    public int parseMove(String input) {
+    /**
+     * Checks are there four discs connected on the gameboard
+     * @param player 'X' or 'O'
+     * @return true if four discs are connected, false if not
+     */
+    public boolean areFourConnected(int player) {
+        int lastColumn = this.WIDTH - 2;
+        // check rows
+        for (int i = 0; i < this.HEIGHT; i++) {
+            for (int j = 2; j < lastColumn-12; j+=4) {
+                if (this.grid[i][j] == player && this.grid[i][j+this.COl_SPACE] == player && this.grid[i][j+this.COl_SPACE*2] == player && this.grid[i][j+this.COl_SPACE*3] == player) {
+                    return true;
+                }
+            }
+        }
+        // check columns
+        for (int i = 0; i < this.HEIGHT - 3; i++) {
+            for (int j = 2; j < this.WIDTH; j+=4) {
+                if (this.grid[i][j] == player && this.grid[i+1][j] == player && this.grid[i+2][j] == player && this.grid[i+3][j] == player) {
+                    return true;
+                }
+            }
+        }
+        // check ascending diagonals
+        for (int i = 3; i < this.HEIGHT; i++) {
+            for (int j = 2; j < 15; j+=4) {
+                if (this.grid[i][j] == player && this.grid[i-1][j+this.COl_SPACE] == player && this.grid[i-2][j+this.COl_SPACE*2] == player && this.grid[i-3][j+this.COl_SPACE*3] == player) {
+                    return true;
+                }
+            }
+        }
+        // check descending diagonals
+        for (int i = 0; i < this.HEIGHT - 3; i++) {
+            for (int j = 2; j < 15; j+=4) {
+                if (this.grid[i][j] == player && this.grid[i+1][j+this.COl_SPACE] == player && this.grid[i+2][j+this.COl_SPACE*2] == player && this.grid[i+3][j+this.COl_SPACE*3] == player) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if input is a valid move. Input must be between 1 and 7 as there are 7 columns.
+     * @param input string input of user
+     * @return input parsed as integer, if valid. Otherwise returns -1
+     */
+    public int validate(String input) {
         if (input.chars().allMatch(Character::isDigit)) {
             int inputInt = Integer.parseInt(input);
             if (inputInt >= 1 && inputInt <= 7) {
@@ -33,8 +97,13 @@ public class Board {
         return -1;
     }
 
-    public int convertMove(int input) {
-        return switch (input) {
+    /**
+     * Converts a column number into a coordinate on the gameboard
+     * @param columnNum column number
+     * @return coordinate on the gameboard
+     */
+    public int convert(int columnNum) {
+        return switch (columnNum) {
             case 1 -> 2;
             case 2 -> 6;
             case 3 -> 10;
@@ -47,8 +116,8 @@ public class Board {
     }
 
     public void print() {
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 29; j++) {
+        for (int i = 0; i < this.HEIGHT; i++) {
+            for (int j = 0; j < this.WIDTH; j++) {
                 System.out.print(this.grid[i][j]);
             }
             System.out.println();
