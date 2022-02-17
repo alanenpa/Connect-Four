@@ -1,8 +1,7 @@
 
-package Tiralabra;
+package tiralabra;
 
 import java.util.Scanner;
-
 
 public class App {
     public static void main(String[] args) {

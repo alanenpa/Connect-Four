@@ -1,4 +1,4 @@
-package Tiralabra;
+package tiralabra;
 
 /**
  * Keeps track of who's turn is it
