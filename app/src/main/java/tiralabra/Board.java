@@ -1,17 +1,19 @@
-package Tiralabra;
+package tiralabra;
+
+import java.util.ArrayList;
 
 /**
- * Controls the gameboard
+ * Controls the gameboard.
  */
 public class Board {
-    private final int HEIGHT = 6;
-    private final int WIDTH = 29;
-    private final int COL_SPACE = 4; // space between the columns
-    private final String GRID_ROW = "|   |   |   |   |   |   |   |";
+    private static final int HEIGHT = 6;
+    private static final int WIDTH = 29;
+    private static final int COL_SPACE = 4; // space between the columns
+    private static final String GRID_ROW = "|   |   |   |   |   |   |   |";
     private char[][] grid;
 
     /**
-     * Initializes the 7x6 gameboard with some extra space
+     * Initializes the 7x6 gameboard with some extra space.
      */
     public Board() {
         this.grid = new char[HEIGHT][WIDTH];
@@ -21,7 +23,7 @@ public class Board {
     }
 
     /**
-     * Marks the board with current players disc
+     * Marks the board with current players disc.
      * @param columnNum column number, gets converted to a coordinate on the board
      * @param player current players disc: 'X' or 'O'
      */
@@ -36,7 +38,7 @@ public class Board {
     }
 
     /**
-     * Checks are there four discs connected on the gameboard
+     * Checks are there four discs connected on the gameboard.
      * @param player 'X' or 'O'
      * @return true if four discs are connected, false if not
      */
