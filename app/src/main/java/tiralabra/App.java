@@ -20,8 +20,9 @@ public class App {
             if (inputInt == -1) break;
             board.makeAMove(inputInt, player);
             board.print();
+            board.getValidLocations();
             if (board.areFourConnected(player)) {
-                System.out.println(player  + " wins!");
+                System.out.println(player + " wins!");
                 break;
             }
         }

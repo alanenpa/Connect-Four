@@ -79,6 +79,19 @@ public class Board {
         return false;
     }
 
+    public void getValidLocations() {
+        ArrayList<Location> locations = new ArrayList<>();
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 2; j < WIDTH; j+=4) {
+                if (this.grid[i][j] == ' ') {
+                    Location l = new Location(i, j);
+                    locations.add(l);
+                }
+            }
+        }
+        System.out.println("Valid locations: " + locations.size());
+    }
+
     /**
      * Checks if input is a valid move. Input must be between 1 and 7 as there are 7 columns.
      * @param input string input of user
