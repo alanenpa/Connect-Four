@@ -21,10 +21,10 @@ public class BoardTest {
     @Test
     public void movesShouldGoToCorrectPositions() {
         board.makeAMove(3, 'O');
-        assertEquals('O', grid[5][10]);
+        assertEquals('O', grid[5][2]);
 
         board.makeAMove(7, 'O');
-        assertEquals('O', grid[5][26]);
+        assertEquals('O', grid[5][6]);
     }
 
     @Test
@@ -40,10 +40,11 @@ public class BoardTest {
 
         player = referee.useTurn();
         board.makeAMove(4, player);
-        assertEquals(player, grid[2][14]);
+        assertEquals(player, grid[2][3]);
+        board.print();
 
         player = referee.useTurn();
-        assertEquals(player, grid[3][14]);
+        assertEquals(player, grid[3][3]);
     }
 
     @Test
@@ -65,19 +66,6 @@ public class BoardTest {
 
         result = board.validate("3");
         assertEquals(result, 3);
-    }
-
-    @Test
-    public void convertWorks() {
-        // horizontal coordinates for columns: 2, 6, 10, 14, 18, 22, 26
-        int colCoordinate = board.convert(5);
-        assertEquals(colCoordinate, 18);
-
-        colCoordinate = board.convert(7);
-        assertEquals(colCoordinate, 26);
-
-        colCoordinate = board.convert(1);
-        assertEquals(colCoordinate, 2);
     }
 
     @Test

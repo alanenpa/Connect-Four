@@ -7,9 +7,9 @@ import java.util.ArrayList;
  */
 public class Board {
     private static final int HEIGHT = 6;
-    private static final int WIDTH = 29;
+    private static final int WIDTH = 7;
     private static final int COL_SPACE = 4; // space between the columns
-    private static final String GRID_ROW = "|   |   |   |   |   |   |   |";
+    private static final String GRID_ROW = "       ";
     private char[][] grid;
 
     /**
@@ -24,14 +24,13 @@ public class Board {
 
     /**
      * Marks the board with current players disc.
-     * @param columnNum column number, gets converted to a coordinate on the board
+     * @param column column number
      * @param player current players disc: 'X' or 'O'
      */
-    public void makeAMove(int columnNum, char player) {
-        int columnCoordinate = convert(columnNum);
+    public void makeAMove(int column, char player) {
         for (int i = HEIGHT-1; i >= 0; i--) {
-            if (this.grid[i][columnCoordinate] == ' ') {
-                this.grid[i][columnCoordinate] = player;
+            if (this.grid[i][column-1] == ' ') {
+                this.grid[i][column-1] = player;
                 break;
             }
         }
@@ -43,18 +42,17 @@ public class Board {
      * @return true if four discs are connected, false if not
      */
     public boolean areFourConnected(int player) {
-        int lastColumn = WIDTH - 2;
         // check rows
         for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 2; j < lastColumn-12; j+=4) {
-                if (this.grid[i][j] == player && this.grid[i][j+ COL_SPACE] == player && this.grid[i][j+ COL_SPACE *2] == player && this.grid[i][j+ COL_SPACE *3] == player) {
+            for (int j = 0; j < WIDTH-3; j++) {
+                if (this.grid[i][j] == player && this.grid[i][j+1] == player && this.grid[i][j+2] == player && this.grid[i][j+3] == player) {
                     return true;
                 }
             }
         }
         // check columns
         for (int i = 0; i < HEIGHT - 3; i++) {
-            for (int j = 2; j < WIDTH; j+=4) {
+            for (int j = 0; j < WIDTH; j++) {
                 if (this.grid[i][j] == player && this.grid[i+1][j] == player && this.grid[i+2][j] == player && this.grid[i+3][j] == player) {
                     return true;
                 }
@@ -62,16 +60,16 @@ public class Board {
         }
         // check ascending diagonals
         for (int i = 3; i < HEIGHT; i++) {
-            for (int j = 2; j < 15; j+=4) {
-                if (this.grid[i][j] == player && this.grid[i-1][j+ COL_SPACE] == player && this.grid[i-2][j+ COL_SPACE *2] == player && this.grid[i-3][j+ COL_SPACE *3] == player) {
+            for (int j = 0; j < 4; j++) {
+                if (this.grid[i][j] == player && this.grid[i-1][j+1] == player && this.grid[i-2][j+2] == player && this.grid[i-3][j+3] == player) {
                     return true;
                 }
             }
         }
         // check descending diagonals
         for (int i = 0; i < HEIGHT - 3; i++) {
-            for (int j = 2; j < 15; j+=4) {
-                if (this.grid[i][j] == player && this.grid[i+1][j+ COL_SPACE] == player && this.grid[i+2][j+ COL_SPACE *2] == player && this.grid[i+3][j+ COL_SPACE *3] == player) {
+            for (int j = 0; j < 4; j++) {
+                if (this.grid[i][j] == player && this.grid[i+1][j+1] == player && this.grid[i+2][j+2] == player && this.grid[i+3][j+3] == player) {
                     return true;
                 }
             }
@@ -107,28 +105,11 @@ public class Board {
         return -1;
     }
 
-    /**
-     * Converts a column number into a coordinate on the gameboard
-     * @param columnNum column number
-     * @return coordinate on the gameboard
-     */
-    public int convert(int columnNum) {
-        return switch (columnNum) {
-            case 1 -> 2;
-            case 2 -> 6;
-            case 3 -> 10;
-            case 4 -> 14;
-            case 5 -> 18;
-            case 6 -> 22;
-            case 7 -> 26;
-            default -> -1;
-        };
-    }
-
     public void print() {
         for (int i = 0; i < HEIGHT; i++) {
+            System.out.print("| ");
             for (int j = 0; j < WIDTH; j++) {
-                System.out.print(this.grid[i][j]);
+                System.out.print(this.grid[i][j] + " | ");
             }
             System.out.println();
         }
