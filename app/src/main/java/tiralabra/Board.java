@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class Board {
     private static final int HEIGHT = 6;
     private static final int WIDTH = 7;
-    private static final int COL_SPACE = 4; // space between the columns
     private static final String GRID_ROW = "       ";
     private char[][] grid;
 
@@ -80,7 +79,7 @@ public class Board {
     public void getValidLocations() {
         ArrayList<Location> locations = new ArrayList<>();
         for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 2; j < WIDTH; j+=4) {
+            for (int j = 0; j < WIDTH; j++) {
                 if (this.grid[i][j] == ' ') {
                     Location l = new Location(i, j);
                     locations.add(l);
