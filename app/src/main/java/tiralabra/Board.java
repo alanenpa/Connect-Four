@@ -76,7 +76,7 @@ public class Board {
         return false;
     }
 
-    public void getValidLocations() {
+    public ArrayList<Location> getValidLocations() {
         ArrayList<Location> locations = new ArrayList<>();
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
@@ -86,7 +86,11 @@ public class Board {
                 }
             }
         }
-        System.out.println("Valid locations: " + locations.size());
+        return locations;
+    }
+
+    public void constructTree(ArrayList<Location> locations) {
+
     }
 
     /**
