@@ -19,3 +19,14 @@ Approx. 10 hours.
 | 4.2.2022  | 2h   | Create Board and Referee classes, start refactoring Main class. Start writing Javadocs.                                                                                     |
 | 6.2.2022  | 2h   | Finish most of Javadocs. Get Board and Referee classes working.                                                                                                             |
 | 30.1.2022 | 8h   | Create method to check if four discs connects on the gameboard. Write tests for Board class.<br/> Migrate to build.gradle with Groovy DSL. Configure Jacoco and Checkstyle. |
+
+## Week 5 (and 4)
+
+
+| Date      | Time | What                                                                                        |
+|-----------|------|---------------------------------------------------------------------------------------------|
+| 11.2.2022 | 2h   | Configure Checkstyle. Fix some Checkstyle errors.                                           |
+| 17.2.2022 | 3h   | Create the first version of minimax. Study the algorithm. Create Location and Node classes. |
+| 19.1.2022 | 1h   | Refactor the game to use a smaller grid. Study the algorithm more.                          |
+
+
