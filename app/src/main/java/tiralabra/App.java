@@ -19,6 +19,7 @@ public class App {
         while (true) {
             char player;
             if (turn == PLAYER) {
+                System.out.println("It's X's turn!");
                 player = 'X';
                 System.out.println("Choose a column to play (1-7)");
                 String input = scanner.nextLine();
@@ -26,6 +27,7 @@ public class App {
                 if (inputInt == -1) break;
                 board.makeAMove(inputInt, player);
             } else {
+                System.out.println("It's O's turn!");
                 player = 'O';
                 int column = rand.nextInt(7)+1;
                 board.makeAMove(column, player);
