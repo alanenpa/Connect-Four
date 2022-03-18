@@ -1,7 +1,5 @@
 package tiralabra;
 
-import java.util.ArrayList;
-
 /**
  * Controls the gameboard.
  */
@@ -12,7 +10,7 @@ public class Board {
     private char[][] grid;
 
     /**
-     * Initializes the 7x6 gameboard with some extra space.
+     * Initializes the 7x6 gameboard.
      */
     public Board() {
         this.grid = new char[HEIGHT][WIDTH];
@@ -24,12 +22,12 @@ public class Board {
     /**
      * Marks the board with current players disc.
      * @param column column number
-     * @param player current players disc: 'X' or 'O'
+     * @param piece current players piece (or disc): 'X' or 'O'
      */
-    public void makeAMove(int column, char player) {
+    public void makeAMove(int column, char piece) {
         for (int i = HEIGHT-1; i >= 0; i--) {
             if (this.grid[i][column-1] == ' ') {
-                this.grid[i][column-1] = player;
+                this.grid[i][column-1] = piece;
                 break;
             }
         }
@@ -37,14 +35,14 @@ public class Board {
 
     /**
      * Checks are there four discs connected on the gameboard.
-     * @param player 'X' or 'O'
+     * @param piece 'X' or 'O'
      * @return true if four discs are connected, false if not
      */
-    public boolean areFourConnected(int player) {
+    public boolean areFourConnected(int piece) {
         // check rows
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH-3; j++) {
-                if (this.grid[i][j] == player && this.grid[i][j+1] == player && this.grid[i][j+2] == player && this.grid[i][j+3] == player) {
+                if (this.grid[i][j] == piece && this.grid[i][j+1] == piece && this.grid[i][j+2] == piece && this.grid[i][j+3] == piece) {
                     return true;
                 }
             }
@@ -52,7 +50,7 @@ public class Board {
         // check columns
         for (int i = 0; i < HEIGHT - 3; i++) {
             for (int j = 0; j < WIDTH; j++) {
-                if (this.grid[i][j] == player && this.grid[i+1][j] == player && this.grid[i+2][j] == player && this.grid[i+3][j] == player) {
+                if (this.grid[i][j] == piece && this.grid[i+1][j] == piece && this.grid[i+2][j] == piece && this.grid[i+3][j] == piece) {
                     return true;
                 }
             }
@@ -60,7 +58,7 @@ public class Board {
         // check ascending diagonals
         for (int i = 3; i < HEIGHT; i++) {
             for (int j = 0; j < 4; j++) {
-                if (this.grid[i][j] == player && this.grid[i-1][j+1] == player && this.grid[i-2][j+2] == player && this.grid[i-3][j+3] == player) {
+                if (this.grid[i][j] == piece && this.grid[i-1][j+1] == piece && this.grid[i-2][j+2] == piece && this.grid[i-3][j+3] == piece) {
                     return true;
                 }
             }
@@ -68,29 +66,12 @@ public class Board {
         // check descending diagonals
         for (int i = 0; i < HEIGHT - 3; i++) {
             for (int j = 0; j < 4; j++) {
-                if (this.grid[i][j] == player && this.grid[i+1][j+1] == player && this.grid[i+2][j+2] == player && this.grid[i+3][j+3] == player) {
+                if (this.grid[i][j] == piece && this.grid[i+1][j+1] == piece && this.grid[i+2][j+2] == piece && this.grid[i+3][j+3] == piece) {
                     return true;
                 }
             }
         }
         return false;
-    }
-
-    public ArrayList<Location> getValidLocations() {
-        ArrayList<Location> locations = new ArrayList<>();
-        for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                if (this.grid[i][j] == ' ') {
-                    Location l = new Location(i, j);
-                    locations.add(l);
-                }
-            }
-        }
-        return locations;
-    }
-
-    public void constructTree(ArrayList<Location> locations) {
-
     }
 
     /**
@@ -101,7 +82,7 @@ public class Board {
     public int validate(String input) {
         if (input.chars().allMatch(Character::isDigit) && !input.equals("")) {
             int inputInt = Integer.parseInt(input);
-            if (inputInt >= 1 && inputInt <= 7) {
+            if (inputInt >= 1 && inputInt <= 7 && this.grid[0][inputInt-1] == ' ') {
                 return inputInt;
             }
         }
