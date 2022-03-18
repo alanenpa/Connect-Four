@@ -20,4 +20,5 @@ public class AI {
             return value;
         }
     }
+
 }
