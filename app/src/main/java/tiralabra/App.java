@@ -31,16 +31,22 @@ public class App {
                 piece = PLAYER_PIECE;
                 System.out.println("Choose a column to play (1-7)");
                 String input = scanner.nextLine();
-                int inputInt = validateInput(input);
-                if (inputInt == -1) break;
-                makeAMove(inputInt, piece, board);
+                int inputCol = validateInput(input);
+                if (inputCol == -1) break;
+                if (isValidLocation(inputCol, board)) {
+                    int row = getNextOpenRow(inputCol, board);
+                    dropPiece(row, inputCol, piece, board);
+                }
                 turn++;
                 turn = turn % 2;
             } else {
                 System.out.println("It's O's turn!");
                 piece = AI_PIECE;
-                int column = rand.nextInt(7) + 1;
-                makeAMove(column, piece, board);
+                int column = rand.nextInt(7);
+                if (isValidLocation(column, board)) {
+                    int row = getNextOpenRow(column, board);
+                    dropPiece(row, column, piece, board);
+                }
                 turn++;
                 turn = turn % 2;
                 Thread.sleep(1500);
@@ -50,7 +56,6 @@ public class App {
                 System.out.println(piece + " wins!");
                 break;
             }
-
         }
         System.out.println("Thanks for playing!");
     }
@@ -80,8 +85,19 @@ public class App {
         if (input.chars().allMatch(Character::isDigit) && !input.equals("")) {
             int inputInt = Integer.parseInt(input);
             if (inputInt >= 1 && inputInt <= 7) {
-                return inputInt;
+                return inputInt-1;
             }
+        }
+        return -1;
+    }
+
+    public static boolean isValidLocation(int col, char[][] board) {
+        return board[0][col] == ' ';
+    }
+
+    public static int getNextOpenRow(int col, char[][] board) {
+        for (int i = HEIGHT - 1; i >= 0; i--) {
+            if (board[i][col] == ' ') return i;
         }
         return -1;
     }
@@ -89,18 +105,11 @@ public class App {
     /**
      * Marks the board with current players disc.
      *
-     * @param col   column number
+     * @param col column number
      * @param piece current players piece (or disc): 'X' or 'O'
-     * @return true if a move was made
      */
-    public static boolean makeAMove(int col, char piece, char[][] board) {
-        for (int i = HEIGHT - 1; i >= 0; i--) {
-            if (board[i][col - 1] == ' ') {
-                board[i][col - 1] = piece;
-                return true;
-            }
-        }
-        return false;
+    public static void dropPiece(int row, int col, char piece, char[][] board) {
+        board[row][col] = piece;
     }
 
     /**
@@ -113,7 +122,7 @@ public class App {
         // check rows
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH - 3; j++) {
-                if (board[i][j] == piece && board[i][j + 1] == piece && board[i][j + 2] == piece && board[i][j + 3] == piece) {
+                if (board[i][j] == piece && board[i][j+1] == piece && board[i][j+2] == piece && board[i][j+3] == piece) {
                     return true;
                 }
             }
@@ -121,7 +130,7 @@ public class App {
         // check columns
         for (int i = 0; i < HEIGHT - 3; i++) {
             for (int j = 0; j < WIDTH; j++) {
-                if (board[i][j] == piece && board[i + 1][j] == piece && board[i + 2][j] == piece && board[i + 3][j] == piece) {
+                if (board[i][j] == piece && board[i+1][j] == piece && board[i+2][j] == piece && board[i+3][j] == piece) {
                     return true;
                 }
             }
@@ -129,7 +138,7 @@ public class App {
         // check ascending diagonals
         for (int i = 3; i < HEIGHT; i++) {
             for (int j = 0; j < 4; j++) {
-                if (board[i][j] == piece && board[i - 1][j + 1] == piece && board[i - 2][j + 2] == piece && board[i - 3][j + 3] == piece) {
+                if (board[i][j] == piece && board[i-1][j+1] == piece && board[i-2][j+2] == piece && board[i-3][j+3] == piece) {
                     return true;
                 }
             }
@@ -137,11 +146,21 @@ public class App {
         // check descending diagonals
         for (int i = 0; i < HEIGHT - 3; i++) {
             for (int j = 0; j < 4; j++) {
-                if (board[i][j] == piece && board[i + 1][j + 1] == piece && board[i + 2][j + 2] == piece && board[i + 3][j + 3] == piece) {
+                if (board[i][j] == piece && board[i+1][j+1] == piece && board[i+2][j+2] == piece && board[i+3][j+3] == piece) {
                     return true;
                 }
             }
         }
         return false;
     }
+
+    public int scorePosition(char[][] board, char piece, Location lastMove) {
+        int row = lastMove.getRow();
+        int col = lastMove.getColumn();
+        if (board[row][col] == piece && board[row][col+1] == piece && board[row][col+2] == piece) {
+            return 100;
+        }
+        return 0;
+    }
+
 }
