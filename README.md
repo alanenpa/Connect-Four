@@ -6,4 +6,4 @@ Connect Four game in Java. A project for Data Structures Project course at the U
 - [Project specification](https://github.com/alanenpa/Connect-Four/blob/main/Documentation/Specs.md)
 
 ## Weekly reports
-[Week 1]()
+[Week 1](https://github.com/alanenpa/Connect-Four/blob/main/Documentation/Reports/Weekly_report_1.md)
