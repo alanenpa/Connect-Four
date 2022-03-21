@@ -26,6 +26,7 @@ public class App {
 
         while (true) {
             char piece;
+            boolean gameOver = false;
             if (turn == PLAYER) {
                 System.out.println("It's X's turn!");
                 piece = PLAYER_PIECE;
@@ -36,6 +37,7 @@ public class App {
                 if (isValidLocation(inputCol, board)) {
                     int row = getNextOpenRow(inputCol, board);
                     dropPiece(row, inputCol, piece, board);
+                    if (isAWinningMove(row, inputCol, board)) gameOver = true;
                 }
                 turn++;
                 turn = turn % 2;
@@ -46,13 +48,14 @@ public class App {
                 if (isValidLocation(column, board)) {
                     int row = getNextOpenRow(column, board);
                     dropPiece(row, column, piece, board);
+                    if (isAWinningMove(row, column, board)) gameOver = true;
                 }
                 turn++;
                 turn = turn % 2;
                 Thread.sleep(1500);
             }
             print(board);
-            if (areFourConnected(piece, board)) {
+            if (gameOver) {
                 System.out.println(piece + " wins!");
                 break;
             }
@@ -112,51 +115,114 @@ public class App {
         board[row][col] = piece;
     }
 
-    /**
-     * Checks are there four discs connected on the gameboard.
-     *
-     * @param piece 'X' or 'O'
-     * @return true if four discs are connected, false if not
-     */
-    public static boolean areFourConnected(int piece, char[][] board) {
+//    /**
+//     * Checks are there four discs connected on the gameboard.
+//     *
+//     * @param piece 'X' or 'O'
+//     * @return true if four discs are connected, false if not
+//     */
+//    public static boolean areFourConnected(int piece, char[][] board) {
+//        // check rows
+//        for (int i = 0; i < HEIGHT; i++) {
+//            for (int j = 0; j < WIDTH - 3; j++) {
+//                if (board[i][j] == piece && board[i][j+1] == piece && board[i][j+2] == piece && board[i][j+3] == piece) {
+//                    return true;
+//                }
+//            }
+//        }
+//        // check columns
+//        for (int i = 0; i < HEIGHT - 3; i++) {
+//            for (int j = 0; j < WIDTH; j++) {
+//                if (board[i][j] == piece && board[i+1][j] == piece && board[i+2][j] == piece && board[i+3][j] == piece) {
+//                    return true;
+//                }
+//            }
+//        }
+//        // check ascending diagonals
+//        for (int i = 3; i < HEIGHT; i++) {
+//            for (int j = 0; j < 4; j++) {
+//                if (board[i][j] == piece && board[i-1][j+1] == piece && board[i-2][j+2] == piece && board[i-3][j+3] == piece) {
+//                    return true;
+//                }
+//            }
+//        }
+//        // check descending diagonals
+//        for (int i = 0; i < HEIGHT - 3; i++) {
+//            for (int j = 0; j < 4; j++) {
+//                if (board[i][j] == piece && board[i+1][j+1] == piece && board[i+2][j+2] == piece && board[i+3][j+3] == piece) {
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
+
+    public static boolean isAWinningMove(int row, int col, char[][] board) {
+        int counter = 0;
+        char piece = board[row][col];
+
         // check rows
-        for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 0; j < WIDTH - 3; j++) {
-                if (board[i][j] == piece && board[i][j+1] == piece && board[i][j+2] == piece && board[i][j+3] == piece) {
-                    return true;
+        for (int i = -4; i < 4; i++) {
+//            System.out.println((row) + ", " + (col+i));
+            if ((col+i) > 0 && (col+i) < 7 ) {
+                if (board[row][col+i] == piece) {
+                    counter++;
+                } else {
+                    counter = 0;
                 }
+                if (counter == 4) return true;
             }
         }
         // check columns
-        for (int i = 0; i < HEIGHT - 3; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                if (board[i][j] == piece && board[i+1][j] == piece && board[i+2][j] == piece && board[i+3][j] == piece) {
-                    return true;
+        counter = 0;
+        // refactor this
+        for (int i = 0; i < HEIGHT; i++) {
+            if (board[i][col] == piece) {
+                counter++;
+            } else {
+                counter = 0;
+            }
+            if (counter == 4) return true;
+        }
+
+        if (!(row < 3 && col < 3) || !(row > 2 && col > 3)) {
+            counter = 0;
+            // check ascending diagonals
+            for (int i = -4; i < 4; i++) {
+                if ((row-i) > 5 || (row-i) < 0 || (col+i) > 6 || (col+i) < 0) {
+                    continue;
+                } else {
+                    if (board[row-i][col+i] == piece) {
+                        counter++;
+                    } else {
+                        counter = 0;
+                    }
+                    if (counter == 4) return true;
                 }
             }
         }
-        // check ascending diagonals
-        for (int i = 3; i < HEIGHT; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (board[i][j] == piece && board[i-1][j+1] == piece && board[i-2][j+2] == piece && board[i-3][j+3] == piece) {
-                    return true;
-                }
-            }
-        }
-        // check descending diagonals
-        for (int i = 0; i < HEIGHT - 3; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (board[i][j] == piece && board[i+1][j+1] == piece && board[i+2][j+2] == piece && board[i+3][j+3] == piece) {
-                    return true;
+
+
+        if (!(row > 2 && col < 3) || !(row < 3 && col > 3)) {
+            // check descending diagonals
+            counter = 0;
+            for (int i = -4; i < 4; i++) {
+                if ((row+i) > 5 || (row+i) < 0 || (col+i) > 6 || (col+i) < 0) {
+                    continue;
+                } else {
+                    if (board[row+i][col+i] == piece) {
+                        counter++;
+                    } else {
+                        counter = 0;
+                    }
+                    if (counter == 4) return true;
                 }
             }
         }
         return false;
     }
 
-    public int scorePosition(char[][] board, char piece, Location lastMove) {
-        int row = lastMove.getRow();
-        int col = lastMove.getColumn();
+    public int scorePosition(int row, int col, char piece, char[][] board) {
         if (board[row][col] == piece && board[row][col+1] == piece && board[row][col+2] == piece) {
             return 100;
         }

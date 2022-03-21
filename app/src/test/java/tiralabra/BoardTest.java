@@ -75,11 +75,13 @@ public class BoardTest {
             dropPiece(row, moves[i], piece, grid);
             turn++;
             turn = turn % 2;
-            assertFalse(areFourConnected(piece, grid));
+//            assertFalse(areFourConnected(piece, grid));
+            assertFalse(isAWinningMove(row, moves[i], grid));
         }
         int row = getNextOpenRow(4, grid);
         dropPiece(row,4, 'X', grid);
-        assertTrue(areFourConnected('X', grid));
+//        assertTrue(areFourConnected('X', grid));
+        assertTrue(isAWinningMove(row, 4, grid));
         // Final situation
         // |   |   |   |   |   |   |   |
         // |   |   |   |   |   |   |   |
@@ -100,12 +102,14 @@ public class BoardTest {
             dropPiece(row, moves[i], piece, grid);
             turn++;
             turn = turn % 2;
-            assertFalse(areFourConnected(piece, grid));
+//            assertFalse(areFourConnected(piece, grid));
+            assertFalse(isAWinningMove(row, moves[i], grid));
         }
         int row = getNextOpenRow(2, grid);
         dropPiece(row, 2, 'O', grid);
         print(grid);
-        assertTrue(areFourConnected('O', grid));
+//        assertTrue(areFourConnected('O', grid));
+        assertTrue(isAWinningMove(row, 2, grid));
         // Final situation
         // |   |   |   |   |   |   |   |
         // |   |   |   |   |   |   |   |
@@ -126,11 +130,13 @@ public class BoardTest {
             dropPiece(row, moves[i], piece, grid);
             turn++;
             turn = turn % 2;
-            assertFalse(areFourConnected(piece, grid));
+//            assertFalse(areFourConnected(piece, grid));
+            assertFalse(isAWinningMove(row, moves[i], grid));
         }
         int row = getNextOpenRow(5, grid);
         dropPiece(row, 5, 'X', grid);
-        assertTrue(areFourConnected('X', grid));
+//        assertTrue(areFourConnected('X', grid));
+        assertTrue(isAWinningMove(row, 5, grid));
         // Final situation
         // |   |   |   |   |   |   |   |
         // |   |   |   |   |   | X |   |
@@ -151,11 +157,13 @@ public class BoardTest {
             dropPiece(row, moves[i], piece, grid);
             turn++;
             turn = turn % 2;
-            assertFalse(areFourConnected(piece, grid));
+//            assertFalse(areFourConnected(piece, grid));
+            assertFalse(isAWinningMove(row, moves[i], grid));
         }
         int row = getNextOpenRow(1, grid);
         dropPiece(row, 1, 'X', grid);
-        assertTrue(areFourConnected('X', grid));
+//        assertTrue(areFourConnected('X', grid));
+        assertTrue(isAWinningMove(row, 1, grid));
         // Final situation
         // |   |   |   |   |   |   |   |
         // |   |   |   |   |   |   |   |
