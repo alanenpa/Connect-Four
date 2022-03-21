@@ -3,7 +3,7 @@
 [Hours](https://github.com/alanenpa/Connect-Four/blob/main/Documentation/Reports/Hours.md)
 
 ## What I did
-- Gave up on using a Board object as this would probably cause problems later
+- Gave up on using a Board object for now as this would probably cause problems later
 - Refactored all Board object methods to class methods in App.java
 - Improved significantly the win checking method in efficiency. The method now checks the win only related
   the last move, and not the whole board
