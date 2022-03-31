@@ -1,6 +1,8 @@
 
 package tiralabra;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -37,7 +39,7 @@ public class App {
                 if (isValidLocation(inputCol, board)) {
                     int row = getNextOpenRow(inputCol, board);
                     dropPiece(row, inputCol, piece, board);
-                    if (isAWinningMove(row, inputCol, board)) gameOver = true;
+                    if (isAWinningMove(row, inputCol, piece, board)) gameOver = true;
                 }
                 turn++;
                 turn = turn % 2;
@@ -45,11 +47,10 @@ public class App {
                 System.out.println("It's O's turn!");
                 piece = AI_PIECE;
                 int column = rand.nextInt(7);
-                if (isValidLocation(column, board)) {
-                    int row = getNextOpenRow(column, board);
-                    dropPiece(row, column, piece, board);
-                    if (isAWinningMove(row, column, board)) gameOver = true;
-                }
+                column = pickBestMove(board, piece, column);
+                int row = getNextOpenRow(column, board);
+                dropPiece(row, column, piece, board);
+                if (isAWinningMove(row, column, piece, board)) gameOver = true;
                 turn++;
                 turn = turn % 2;
                 Thread.sleep(1500);
@@ -61,6 +62,33 @@ public class App {
             }
         }
         System.out.println("Thanks for playing!");
+    }
+
+    private static int pickBestMove(char[][] board, char piece, int column) {
+        int max = 0;
+        char[][] boardCopy;
+        for (int i = 0; i < WIDTH; i++) {
+            boardCopy = deepCopy(board);
+            int row = getNextOpenRow(i, boardCopy);
+            if (!isValidLocation(i, board)) continue;
+            dropPiece(row, i, piece, boardCopy);
+            int score = scorePosition(row, i, piece, boardCopy);
+            System.out.println(score + ", " + i);
+            if (score > max) {
+                max = score;
+                System.out.println("improved!");
+                column = i;
+            }
+        }
+        return column;
+    }
+
+    public static char[][] deepCopy(char[][] board) {
+        char[][] boardCopy = new char[HEIGHT][WIDTH];
+        for (int i = 0; i < HEIGHT; i++) {
+            boardCopy[i] = Arrays.copyOf(board[i], WIDTH);
+        }
+        return boardCopy;
     }
 
     /**
@@ -98,6 +126,16 @@ public class App {
         return board[0][col] == ' ';
     }
 
+    public static ArrayList<Integer> getValidLocations(char[][] board) {
+        ArrayList<Integer> validLocations = new ArrayList<>();
+        for (int i = 0; i < WIDTH; i++) {
+            if (isValidLocation(i, board)) {
+                validLocations.add(i);
+            }
+        }
+        return validLocations;
+    }
+
     public static int getNextOpenRow(int col, char[][] board) {
         for (int i = HEIGHT - 1; i >= 0; i--) {
             if (board[i][col] == ' ') return i;
@@ -115,51 +153,8 @@ public class App {
         board[row][col] = piece;
     }
 
-//    /**
-//     * Checks are there four discs connected on the gameboard.
-//     *
-//     * @param piece 'X' or 'O'
-//     * @return true if four discs are connected, false if not
-//     */
-//    public static boolean areFourConnected(int piece, char[][] board) {
-//        // check rows
-//        for (int i = 0; i < HEIGHT; i++) {
-//            for (int j = 0; j < WIDTH - 3; j++) {
-//                if (board[i][j] == piece && board[i][j+1] == piece && board[i][j+2] == piece && board[i][j+3] == piece) {
-//                    return true;
-//                }
-//            }
-//        }
-//        // check columns
-//        for (int i = 0; i < HEIGHT - 3; i++) {
-//            for (int j = 0; j < WIDTH; j++) {
-//                if (board[i][j] == piece && board[i+1][j] == piece && board[i+2][j] == piece && board[i+3][j] == piece) {
-//                    return true;
-//                }
-//            }
-//        }
-//        // check ascending diagonals
-//        for (int i = 3; i < HEIGHT; i++) {
-//            for (int j = 0; j < 4; j++) {
-//                if (board[i][j] == piece && board[i-1][j+1] == piece && board[i-2][j+2] == piece && board[i-3][j+3] == piece) {
-//                    return true;
-//                }
-//            }
-//        }
-//        // check descending diagonals
-//        for (int i = 0; i < HEIGHT - 3; i++) {
-//            for (int j = 0; j < 4; j++) {
-//                if (board[i][j] == piece && board[i+1][j+1] == piece && board[i+2][j+2] == piece && board[i+3][j+3] == piece) {
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
-
-    public static boolean isAWinningMove(int row, int col, char[][] board) {
+    public static boolean isAWinningMove(int row, int col, char piece, char[][] board) {
         int counter = 0;
-        char piece = board[row][col];
 
         // check rows
         for (int i = -4; i < 4; i++) {
@@ -222,11 +217,15 @@ public class App {
         return false;
     }
 
-    public int scorePosition(int row, int col, char piece, char[][] board) {
-        if (board[row][col] == piece && board[row][col+1] == piece && board[row][col+2] == piece) {
+    public static int scorePosition(int row, int col, char piece, char[][] board) {
+        if (isAWinningMove(row, col, piece, board)) {
             return 100;
         }
         return 0;
+    }
+
+    public static void pickBestMove(char piece, char[][] board) {
+
     }
 
 }
