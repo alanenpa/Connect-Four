@@ -64,20 +64,21 @@ public class App {
         System.out.println("Thanks for playing!");
     }
 
-    private static int pickBestMove(char[][] board, char piece, int column) {
+    public static int pickBestMove(char[][] board, char piece, int column) {
         int max = 0;
         char[][] boardCopy;
-        for (int i = 0; i < WIDTH; i++) {
+        ArrayList<Integer> validLocations = getValidLocations(board);
+        for (int col : validLocations) {
             boardCopy = deepCopy(board);
-            int row = getNextOpenRow(i, boardCopy);
-            if (!isValidLocation(i, board)) continue;
-            dropPiece(row, i, piece, boardCopy);
-            int score = scorePosition(row, i, piece, boardCopy);
-            System.out.println(score + ", " + i);
+            int row = getNextOpenRow(col, boardCopy);
+            if (!isValidLocation(col, board)) continue;
+            dropPiece(row, col, piece, boardCopy);
+            int score = scorePosition(row, col, piece, boardCopy);
+            System.out.println(score + ", " + col);
             if (score > max) {
                 max = score;
                 System.out.println("improved!");
-                column = i;
+                column = col;
             }
         }
         return column;
@@ -180,9 +181,9 @@ public class App {
             if (counter == 4) return true;
         }
 
-        if (!(row < 3 && col < 3) || !(row > 2 && col > 3)) {
-            counter = 0;
-            // check ascending diagonals
+        counter = 0;
+        // check ascending diagonals
+        if (notInCornersAscending(row, col)) {
             for (int i = -4; i < 4; i++) {
                 if ((row-i) > 5 || (row-i) < 0 || (col+i) > 6 || (col+i) < 0) {
                     continue;
@@ -197,8 +198,7 @@ public class App {
             }
         }
 
-
-        if (!(row > 2 && col < 3) || !(row < 3 && col > 3)) {
+        if (notInCornersDescending(row, col)) {
             // check descending diagonals
             counter = 0;
             for (int i = -4; i < 4; i++) {
@@ -217,15 +217,35 @@ public class App {
         return false;
     }
 
+    public static boolean notInCornersAscending(int row, int col) {
+        return notInUpperLeftCorner(row, col) && notInLowerRightCorner(row, col);
+    }
+
+    public static boolean notInUpperLeftCorner(int row, int col) {
+        return (col != 0 || row >= 3) && (col != 1 || row >= 2) && (col != 2 || row >= 1);
+    }
+
+    public static boolean notInLowerRightCorner(int row, int col) {
+        return (col != 4 || row <= 4) && (col != 5 || row <= 3) && (col != 6 || row <= 2);
+    }
+
+    public static boolean notInCornersDescending(int row, int col) {
+        return notInLowerLeftCorner(row, col) && notInUpperRightCorner(row, col);
+    }
+
+    public static boolean notInLowerLeftCorner(int row, int col) {
+        return (col != 0 || row <= 2) && (col != 1 || row <= 3) && (col != 2 || row <= 4);
+    }
+
+    public static boolean notInUpperRightCorner(int row, int col) {
+        return (col != 4 || row >= 1) && (col != 5 || row >= 2) && (col != 6 || row >= 3);
+    }
+
     public static int scorePosition(int row, int col, char piece, char[][] board) {
         if (isAWinningMove(row, col, piece, board)) {
             return 100;
         }
         return 0;
-    }
-
-    public static void pickBestMove(char piece, char[][] board) {
-
     }
 
 }

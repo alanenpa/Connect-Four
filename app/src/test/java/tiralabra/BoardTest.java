@@ -7,40 +7,40 @@ import static org.junit.Assert.*;
 import static tiralabra.App.*;
 
 public class BoardTest {
-    private char[][] grid;
+    private char[][] board;
 
     @Before
     public void init() {
-        grid = initBoard();
+        board = initBoard();
         // horizontal coordinates for columns: 2, 6, 10, 14, 18, 22, 26
     }
 
     @Test
     public void movesShouldGoToCorrectPositions() {
         int col = 2;
-        int row = getNextOpenRow(col, grid);
-        dropPiece(row, col, 'O', grid);
-        assertEquals('O', grid[5][2]);
+        int row = getNextOpenRow(col, board);
+        dropPiece(row, col, 'O', board);
+        assertEquals('O', board[5][2]);
 
         col = 6;
-        row = getNextOpenRow(col, grid);
-        dropPiece(row, col, 'O', grid);
-        assertEquals('O', grid[5][6]);
+        row = getNextOpenRow(col, board);
+        dropPiece(row, col, 'O', board);
+        assertEquals('O', board[5][6]);
     }
 
     @Test
     public void discsShouldStackUpOnBoard() {
         int col = 4;
-        int row = getNextOpenRow(4, grid);
-        dropPiece(row, col, 'X', grid);
-        row = getNextOpenRow(4, grid);
-        dropPiece(row, col, 'O', grid);
-        row = getNextOpenRow(4, grid);
-        dropPiece(row, col, 'X', grid);
-        row = getNextOpenRow(4, grid);
-        dropPiece(row, col, 'O', grid);
-        assertEquals('O', grid[2][4]);
-        assertEquals('X', grid[3][4]);
+        int row = getNextOpenRow(4, board);
+        dropPiece(row, col, 'X', board);
+        row = getNextOpenRow(4, board);
+        dropPiece(row, col, 'O', board);
+        row = getNextOpenRow(4, board);
+        dropPiece(row, col, 'X', board);
+        row = getNextOpenRow(4, board);
+        dropPiece(row, col, 'O', board);
+        assertEquals('O', board[2][4]);
+        assertEquals('X', board[3][4]);
     }
 
     @Test
@@ -71,17 +71,15 @@ public class BoardTest {
         char piece = 'O';
         for (int i = 0; i < moves.length; i++) {
             piece = turn == 0 ? 'O' : 'X';
-            int row = getNextOpenRow(moves[i], grid);
-            dropPiece(row, moves[i], piece, grid);
+            int row = getNextOpenRow(moves[i], board);
+            dropPiece(row, moves[i], piece, board);
             turn++;
             turn = turn % 2;
-//            assertFalse(areFourConnected(piece, grid));
-            assertFalse(isAWinningMove(row, moves[i], piece, grid));
+            assertFalse(isAWinningMove(row, moves[i], piece, board));
         }
-        int row = getNextOpenRow(4, grid);
-        dropPiece(row,4, 'X', grid);
-//        assertTrue(areFourConnected('X', grid));
-        assertTrue(isAWinningMove(row, 4, 'X', grid));
+        int row = getNextOpenRow(4, board);
+        dropPiece(row,4, 'X', board);
+        assertTrue(isAWinningMove(row, 4, 'X', board));
         // Final situation
         // |   |   |   |   |   |   |   |
         // |   |   |   |   |   |   |   |
@@ -98,18 +96,17 @@ public class BoardTest {
         char piece = 'O';
         for (int i = 0; i < moves.length; i++) {
             piece = turn == 0 ? 'O' : 'X';
-            int row = getNextOpenRow(moves[i], grid);
-            dropPiece(row, moves[i], piece, grid);
+            int row = getNextOpenRow(moves[i], board);
+            dropPiece(row, moves[i], piece, board);
             turn++;
             turn = turn % 2;
 //            assertFalse(areFourConnected(piece, grid));
-            assertFalse(isAWinningMove(row, moves[i], piece, grid));
+            assertFalse(isAWinningMove(row, moves[i], piece, board));
         }
-        int row = getNextOpenRow(2, grid);
-        dropPiece(row, 2, 'O', grid);
-        print(grid);
-//        assertTrue(areFourConnected('O', grid));
-        assertTrue(isAWinningMove(row, 2, 'O', grid));
+        int row = getNextOpenRow(2, board);
+        dropPiece(row, 2, 'O', board);
+        print(board);
+        assertTrue(isAWinningMove(row, 2, 'O', board));
         // Final situation
         // |   |   |   |   |   |   |   |
         // |   |   |   |   |   |   |   |
@@ -126,17 +123,15 @@ public class BoardTest {
         char piece = 'O';
         for (int i = 0; i < moves.length; i++) {
             piece = turn == 0 ? 'O' : 'X';
-            int row = getNextOpenRow(moves[i], grid);
-            dropPiece(row, moves[i], piece, grid);
+            int row = getNextOpenRow(moves[i], board);
+            dropPiece(row, moves[i], piece, board);
             turn++;
             turn = turn % 2;
-//            assertFalse(areFourConnected(piece, grid));
-            assertFalse(isAWinningMove(row, moves[i], piece, grid));
+            assertFalse(isAWinningMove(row, moves[i], piece, board));
         }
-        int row = getNextOpenRow(5, grid);
-        dropPiece(row, 5, 'X', grid);
-//        assertTrue(areFourConnected('X', grid));
-        assertTrue(isAWinningMove(row, 5, 'X', grid));
+        int row = getNextOpenRow(5, board);
+        dropPiece(row, 5, 'X', board);
+        assertTrue(isAWinningMove(row, 5, 'X', board));
         // Final situation
         // |   |   |   |   |   |   |   |
         // |   |   |   |   |   | X |   |
@@ -153,17 +148,15 @@ public class BoardTest {
         char piece = 'O';
         for (int i = 0; i < moves.length; i++) {
             piece = turn == 0 ? 'O' : 'X';
-            int row = getNextOpenRow(moves[i], grid);
-            dropPiece(row, moves[i], piece, grid);
+            int row = getNextOpenRow(moves[i], board);
+            dropPiece(row, moves[i], piece, board);
             turn++;
             turn = turn % 2;
-//            assertFalse(areFourConnected(piece, grid));
-            assertFalse(isAWinningMove(row, moves[i], piece, grid));
+            assertFalse(isAWinningMove(row, moves[i], piece, board));
         }
-        int row = getNextOpenRow(1, grid);
-        dropPiece(row, 1, 'X', grid);
-//        assertTrue(areFourConnected('X', grid));
-        assertTrue(isAWinningMove(row, 1, 'X', grid));
+        int row = getNextOpenRow(1, board);
+        dropPiece(row, 1, 'X', board);
+        assertTrue(isAWinningMove(row, 1, 'X', board));
         // Final situation
         // |   |   |   |   |   |   |   |
         // |   |   |   |   |   |   |   |
