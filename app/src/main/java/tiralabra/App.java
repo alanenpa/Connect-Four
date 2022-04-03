@@ -155,11 +155,9 @@ public class App {
     }
 
     public static boolean isAWinningMove(int row, int col, char piece, char[][] board) {
-        int counter = 0;
-
         // check rows
-        for (int i = -4; i < 4; i++) {
-//            System.out.println((row) + ", " + (col+i));
+        int counter = 0;
+        for (int i = -3; i < 4; i++) {
             if ((col+i) > 0 && (col+i) < 7 ) {
                 if (board[row][col+i] == piece) {
                     counter++;
@@ -171,23 +169,25 @@ public class App {
         }
         // check columns
         counter = 0;
-        // refactor this
-        for (int i = 0; i < HEIGHT; i++) {
-            if (board[i][col] == piece) {
-                counter++;
-            } else {
-                counter = 0;
+        for (int i = -3; i < 4; i++) {
+            if ((row+i) > 0 && (row+i) < 6 ) {
+                if (board[row+i][col] == piece) {
+                    counter++;
+                } else {
+                    counter = 0;
+                }
+                if (counter == 4) return true;
             }
-            if (counter == 4) return true;
         }
 
-        counter = 0;
-        // check ascending diagonals
         if (notInCornersAscending(row, col)) {
-            for (int i = -4; i < 4; i++) {
-                if ((row-i) > 5 || (row-i) < 0 || (col+i) > 6 || (col+i) < 0) {
+            // check ascending diagonals
+            counter = 0;
+            for (int i = -3; i < 4; i++) {
+                if (indexNotWithinBoundsAsceding(row, col, i)) {
                     continue;
                 } else {
+                    System.out.println((row-i) + ", " + (col+i));
                     if (board[row-i][col+i] == piece) {
                         counter++;
                     } else {
@@ -201,8 +201,8 @@ public class App {
         if (notInCornersDescending(row, col)) {
             // check descending diagonals
             counter = 0;
-            for (int i = -4; i < 4; i++) {
-                if ((row+i) > 5 || (row+i) < 0 || (col+i) > 6 || (col+i) < 0) {
+            for (int i = -3; i < 4; i++) {
+                if (indexNotWithinBoundsDesceding(row, col, i)) {
                     continue;
                 } else {
                     if (board[row+i][col+i] == piece) {
@@ -216,6 +216,15 @@ public class App {
         }
         return false;
     }
+
+    public static boolean indexNotWithinBoundsAsceding(int row, int col, int i) {
+        return (row-i) > 5 || (row-i) < 0 || (col+i) > 6 || (col+i) < 0;
+    }
+
+    public static boolean indexNotWithinBoundsDesceding(int row, int col, int i) {
+        return (row+i) > 5 || (row+i) < 0 || (col+i) > 6 || (col+i) < 0;
+    }
+
 
     public static boolean notInCornersAscending(int row, int col) {
         return notInUpperLeftCorner(row, col) && notInLowerRightCorner(row, col);
