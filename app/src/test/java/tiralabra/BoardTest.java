@@ -12,7 +12,6 @@ public class BoardTest {
     @Before
     public void init() {
         board = initBoard();
-        // horizontal coordinates for columns: 2, 6, 10, 14, 18, 22, 26
     }
 
     @Test
@@ -100,12 +99,10 @@ public class BoardTest {
             dropPiece(row, moves[i], piece, board);
             turn++;
             turn = turn % 2;
-//            assertFalse(areFourConnected(piece, grid));
             assertFalse(isAWinningMove(row, moves[i], piece, board));
         }
         int row = getNextOpenRow(2, board);
         dropPiece(row, 2, 'O', board);
-        print(board);
         assertTrue(isAWinningMove(row, 2, 'O', board));
         // Final situation
         // |   |   |   |   |   |   |   |
@@ -164,5 +161,63 @@ public class BoardTest {
         // | O | X |   |   |   |   |   |
         // | X | O | X |   |   |   |   |
         // | O | X | O | X | O | O |   |
+    }
+
+    @Test
+    public void DiagonallyAscedingUpperCornerCase() {
+        int[] moves = {0,0,0,1,1,1,1,2,2,2,2,3,2,3,3,3,3,4,3};
+        play(moves);
+        print(board);
+        assertTrue(isAWinningMove(0, 3, 'O', board));
+        // Final situation
+        // |   |   |   | O |   |   |   |
+        // |   |   | O | O |   |   |   |
+        // |   | O | O | X |   |   |   |
+        // | O | X | X | O |   |   |   |
+        // | X | O | O | X |   |   |   |
+        // | O | X | X | X | X |   |   |
+    }
+
+    @Test
+    public void DiagonallyAscedingLowerCornerCase() {
+        int[] moves = {3,4,4,6,5,5,5,2,6,6,6};
+        play(moves);
+        assertTrue(isAWinningMove(2, 6, 'O', board));
+        // Final situation
+        // |   |   |   |   |   |   |   |
+        // |   |   |   |   |   |   |   |
+        // |   |   |   |   |   |   | O |
+        // |   |   |   |   |   | O | X |
+        // |   |   |   |   | O | X | O |
+        // |   |   | X | O | X | O | X |
+
+    }
+
+    @Test
+    public void DiagonallyDescendingUpperCornerCase() {
+        int[] moves = {3,4,3,3,3,3,3,4,4,4,4,5,5,5,5,0,6,6,6};
+        play(moves);
+        assertTrue(isAWinningMove(3, 6, 'O', board));
+        // Final situation
+        // |   |   |   | O |   |   |   |
+        // |   |   |   | X | O |   |   |
+        // |   |   |   | O | X | O |   |
+        // |   |   |   | X | O | X | O |
+        // |   |   |   | O | X | O | X |
+        // | X |   |   | O | X | X | O |
+    }
+
+
+
+    private void play(int[] moves) {
+        int turn = 0;
+        char piece;
+        for (int move : moves) {
+            piece = turn == 0 ? 'O' : 'X';
+            int row = getNextOpenRow(move, board);
+            dropPiece(row, move, piece, board);
+            turn++;
+            turn = turn % 2;
+        }
     }
 }
