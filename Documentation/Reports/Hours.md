@@ -8,3 +8,12 @@
 | 20.3.2022 | 2h   | Refactor main game loop. Refactor tests to use the class methods.                       |
 | 21.3.2022 | 3h   | Implement a new win checking method. Refactor main game loop and tests accordingly.     |
 
+
+## Week 3
+
+| Date      | Time | What                                                                                                          |
+|-----------|------|---------------------------------------------------------------------------------------------------------------|
+| 31.3.2022 | 3h   | Make AI choose the winning move, if possible. Create a method for picking the best move. Lots of refactoring. |
+| 3.4.2022  | 2h   | Create corner case tests for diagonal win checking. Refactor win checking method.                             |
+| 21.3.2022 | 3h   | Implement a new win checking method. Refactor main game loop and tests accordingly.                           |
+
