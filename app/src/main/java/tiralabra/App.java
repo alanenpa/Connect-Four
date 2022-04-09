@@ -68,6 +68,7 @@ public class App {
         int max = 0;
         char[][] boardCopy;
         ArrayList<Integer> validLocations = getValidLocations(board);
+        System.out.println("Scores:");
         for (int col : validLocations) {
             boardCopy = deepCopy(board);
             int row = getNextOpenRow(col, boardCopy);
@@ -81,6 +82,7 @@ public class App {
                 column = col;
             }
         }
+        System.out.println("BEST MOVE: " + column);
         return column;
     }
 
@@ -158,7 +160,7 @@ public class App {
         // check rows
         int counter = 0;
         for (int i = -3; i < 4; i++) {
-            if ((col+i) > 0 && (col+i) < 7 ) {
+            if ((col+i) > 0 && (col+i) < 7) {
                 if (board[row][col+i] == piece) {
                     counter++;
                 } else {
@@ -170,7 +172,7 @@ public class App {
         // check columns
         counter = 0;
         for (int i = -3; i < 4; i++) {
-            if ((row+i) > 0 && (row+i) < 6 ) {
+            if ((row+i) > 0 && (row+i) < 6) {
                 if (board[row+i][col] == piece) {
                     counter++;
                 } else {
@@ -187,7 +189,6 @@ public class App {
                 if (indexNotWithinBoundsAsceding(row, col, i)) {
                     continue;
                 } else {
-                    System.out.println((row-i) + ", " + (col+i));
                     if (board[row-i][col+i] == piece) {
                         counter++;
                     } else {
@@ -254,7 +255,66 @@ public class App {
         if (isAWinningMove(row, col, piece, board)) {
             return 100;
         }
-        return 0;
+        int score = 0;
+        int counter = 0;
+        // not working right, yet...
+        for (int i = -3; i < 4; i++) {
+            if ((col+i) > 0 && (col+i) < WIDTH) {
+                if (board[row][col+i] == piece) {
+                    counter++;
+                }
+                else {
+                    counter = 0;
+                }
+                if (counter == 2) score += 2;
+                if (counter == 3) score += 3;
+            }
+        }
+
+        counter = 0;
+        for (int i = -3; i < 4; i++) {
+            if ((row+i) > 0 && (row+i) < HEIGHT) {
+                if (board[row+i][col] == piece) {
+                    counter++;
+                }
+                else {
+                    counter = 0;
+                }
+                if (counter == 2) score += 2;
+                if (counter == 3) score += 3;
+            }
+        }
+
+        counter = 0;
+        for (int i = -3; i < 4; i++) {
+            if (indexNotWithinBoundsAsceding(row, col, i)) {
+                continue;
+            } else {
+                if (board[row-i][col+i] == piece) {
+                    counter++;
+                } else {
+                    counter = 0;
+                }
+                if (counter == 2) score += 2;
+                if (counter == 3) score += 3;
+            }
+        }
+
+        counter = 0;
+        for (int i = -3; i < 4; i++) {
+            if (indexNotWithinBoundsDesceding(row, col, i)) {
+                continue;
+            } else {
+                if (board[row+i][col+i] == piece) {
+                    counter++;
+                } else {
+                    counter = 0;
+                }
+                if (counter == 2) score += 2;
+                if (counter == 3) score += 3;
+            }
+        }
+        return score;
     }
 
 }
