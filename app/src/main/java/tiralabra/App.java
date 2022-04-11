@@ -64,6 +64,17 @@ public class App {
         System.out.println("Thanks for playing!");
     }
 
+//    Sketching for pickBestMove method implementation with depth
+    public static int temp(char[][] board, char piece, int depth) {
+        int column = -1;
+        for (int i = depth; i > 0; i--) {
+            column = pickBestMove(board, piece, 0);
+            int row = getNextOpenRow(column, board);
+            dropPiece(row, column, piece, board);
+        }
+        return column;
+    }
+
     public static int pickBestMove(char[][] board, char piece, int column) {
         int max = 0;
         char[][] boardCopy;
@@ -71,10 +82,7 @@ public class App {
         System.out.println("Scores:");
         for (int col : validLocations) {
             boardCopy = deepCopy(board);
-            int row = getNextOpenRow(col, boardCopy);
-            if (!isValidLocation(col, board)) continue;
-            dropPiece(row, col, piece, boardCopy);
-            int score = scorePosition(row, col, piece, boardCopy);
+            int score = dropAndGetScore(boardCopy, piece, col);
             System.out.println(score + ", " + col);
             if (score > max) {
                 max = score;
@@ -84,6 +92,13 @@ public class App {
         }
         System.out.println("BEST MOVE: " + column);
         return column;
+    }
+
+    private static int dropAndGetScore(char[][] boardCopy, char piece, int col) {
+        int row = getNextOpenRow(col, boardCopy);
+        dropPiece(row, col, piece, boardCopy);
+        int score = scorePosition(row, col, piece, boardCopy);
+        return score;
     }
 
     public static char[][] deepCopy(char[][] board) {
@@ -257,7 +272,6 @@ public class App {
         }
         int score = 0;
         int counter = 0;
-        // not working right, yet...
         for (int i = -3; i < 4; i++) {
             if ((col+i) > 0 && (col+i) < WIDTH) {
                 if (board[row][col+i] == piece) {
