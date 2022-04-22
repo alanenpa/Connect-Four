@@ -18,10 +18,9 @@ public class App {
     static final String GRID_ROW = "       ";
 
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         char[][] board = initBoard();
         Random rand = new Random();
-        AI ai = new AI();
         int turn = rand.nextInt(AI + 1);
         Scanner scanner = new Scanner(System.in);
         print(board);
@@ -46,14 +45,13 @@ public class App {
             } else {
                 System.out.println("It's O's turn!");
                 piece = AI_PIECE;
-                int column = rand.nextInt(7);
-                column = pickBestMove(board, piece, column);
+                int[] arr = minimax(5, piece, board);
+                int column = arr[0];
                 int row = getNextOpenRow(column, board);
                 dropPiece(row, column, piece, board);
                 if (isAWinningMove(row, column, piece, board)) gameOver = true;
                 turn++;
                 turn = turn % 2;
-                Thread.sleep(1500);
             }
             print(board);
             if (gameOver) {
