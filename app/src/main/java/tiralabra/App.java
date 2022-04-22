@@ -158,7 +158,7 @@ public class App {
         // check rows
         int counter = 0;
         for (int i = -3; i < 4; i++) {
-            if ((col+i) > 0 && (col+i) < 7) {
+            if ((col+i) >= 0 && (col+i) < 7) {
                 if (board[row][col+i] == piece) {
                     counter++;
                 } else {
@@ -170,7 +170,7 @@ public class App {
         // check columns
         counter = 0;
         for (int i = -3; i < 4; i++) {
-            if ((row+i) > 0 && (row+i) < 6) {
+            if ((row+i) >= 0 && (row+i) < 6) {
                 if (board[row+i][col] == piece) {
                     counter++;
                 } else {
@@ -179,7 +179,6 @@ public class App {
                 if (counter == 4) return true;
             }
         }
-
         if (notInCornersAscending(row, col)) {
             // check ascending diagonals
             counter = 0;
@@ -196,7 +195,6 @@ public class App {
                 }
             }
         }
-
         if (notInCornersDescending(row, col)) {
             // check descending diagonals
             counter = 0;
