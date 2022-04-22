@@ -154,6 +154,10 @@ public class App {
         board[row][col] = piece;
     }
 
+    public static void removePiece(int row, int col, char[][] board) {
+        board[row][col] = ' ';
+    }
+
     public static boolean isAWinningMove(int row, int col, char piece, char[][] board) {
         // check rows
         int counter = 0;
@@ -247,69 +251,57 @@ public class App {
         return (col != 4 || row >= 1) && (col != 5 || row >= 2) && (col != 6 || row >= 3);
     }
 
-    public static int scorePosition(int row, int col, char piece, char[][] board) {
-        if (isAWinningMove(row, col, piece, board)) {
-            return 100;
-        }
-        int score = 0;
-        int counter = 0;
-        for (int i = -3; i < 4; i++) {
-            if ((col+i) > 0 && (col+i) < WIDTH) {
-                if (board[row][col+i] == piece) {
-                    counter++;
-                }
-                else {
-                    counter = 0;
-                }
-                if (counter == 2) score += 2;
-                if (counter == 3) score += 3;
-            }
-        }
-
-        counter = 0;
-        for (int i = -3; i < 4; i++) {
-            if ((row+i) > 0 && (row+i) < HEIGHT) {
-                if (board[row+i][col] == piece) {
-                    counter++;
-                }
-                else {
-                    counter = 0;
-                }
-                if (counter == 2) score += 2;
-                if (counter == 3) score += 3;
-            }
-        }
-
-        counter = 0;
-        for (int i = -3; i < 4; i++) {
-            if (indexNotWithinBoundsAsceding(row, col, i)) {
-                continue;
-            } else {
-                if (board[row-i][col+i] == piece) {
-                    counter++;
+    // col, score
+    public static int[] minimax(int depth, char piece, char[][] board) {
+        int[] ord = {3,4,2,5,1,6,0};
+        for (int i : ord) {
+            int nextRow = getNextOpenRow(i, board);
+            if (nextRow == -1) continue;
+            dropPiece(nextRow, i, piece, board);
+            if (isAWinningMove(nextRow, i, PLAYER_PIECE, board) || isAWinningMove(nextRow, i, AI_PIECE, board)) {
+                removePiece(nextRow, i, board);
+                if (piece == PLAYER_PIECE) {
+                    return new int[] {i, 10000000+depth};
                 } else {
-                    counter = 0;
+                    return new int[] {i, -10000000-depth};
                 }
-                if (counter == 2) score += 2;
-                if (counter == 3) score += 3;
             }
+            removePiece(nextRow, i, board);
         }
-
-        counter = 0;
-        for (int i = -3; i < 4; i++) {
-            if (indexNotWithinBoundsDesceding(row, col, i)) {
-                continue;
-            } else {
-                if (board[row+i][col+i] == piece) {
-                    counter++;
-                } else {
-                    counter = 0;
+        if (depth == 0 || (getValidLocations(board).size() == 0)) {
+            return new int[] {-1, 0};
+        }
+        if (piece == PLAYER_PIECE) { // maximizing player
+            int score = -999999999;
+            int bestMove = -1;
+            for (int i : ord) {
+                int nextRow = getNextOpenRow(i, board);
+                if (nextRow == -1) continue;
+                dropPiece(nextRow, i, PLAYER_PIECE, board);
+                int newScore = minimax(depth-1, AI_PIECE, board)[1];
+                if (newScore > score) {
+                    score = newScore;
+                    bestMove = i;
                 }
-                if (counter == 2) score += 2;
-                if (counter == 3) score += 3;
+                removePiece(nextRow, i, board);
             }
+            return new int[] {bestMove, score};
+        } else { // AI_PIECE, minimizing player
+            int score = 999999999;
+            int bestMove = -1;
+            for (int i : ord) {
+                int nextRow = getNextOpenRow(i, board);
+                if (nextRow == -1) continue;
+                dropPiece(nextRow, i, AI_PIECE, board);
+                int newScore = minimax(depth-1, PLAYER_PIECE, board)[1];
+                if (newScore < score) {
+                    score = newScore;
+                    bestMove = i;
+                }
+                removePiece(nextRow, i, board);
+            }
+            return new int[] {bestMove, score};
         }
-        return score;
     }
-
 }
+
