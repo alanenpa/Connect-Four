@@ -24,3 +24,7 @@
 | 9.4.2022  | 4h   | Complete the first version of board scoring method.                   |
 | 11.4.2022 | 3h   | Extract method from pickBestMove, sketch for pickBestMove with depth. |
 
+## Week 5
+
+Approx. 12 hours.
+
