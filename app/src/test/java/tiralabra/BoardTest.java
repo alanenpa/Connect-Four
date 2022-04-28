@@ -4,7 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static tiralabra.App.*;
+import static domain.Board.*;
+import static utils.Utils.*;
 
 public class BoardTest {
     private char[][] board;
