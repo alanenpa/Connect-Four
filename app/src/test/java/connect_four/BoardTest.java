@@ -1,4 +1,4 @@
-package tiralabra;
+package connect_four;
 
 import org.junit.Before;
 import org.junit.Test;

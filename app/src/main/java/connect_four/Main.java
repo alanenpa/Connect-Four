@@ -1,7 +1,6 @@
 
-package tiralabra;
+package connect_four;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,7 +8,7 @@ import static logic.AI.minimax;
 import static utils.Utils.*;
 import static domain.Board.*;
 
-public class App {
+public class Main {
     static final int PLAYER = 0;
     static final int AI = 1;
 
@@ -43,7 +42,7 @@ public class App {
             } else {
                 System.out.println("It's O's turn!");
                 piece = AI_PIECE;
-                int[] arr = minimax(15, piece, Integer.MIN_VALUE, Integer.MAX_VALUE,  board);
+                int[] arr = minimax(5, piece, Integer.MIN_VALUE, Integer.MAX_VALUE,  board);
                 int column = arr[0];
                 int row = getNextOpenRow(column, board);
                 dropPiece(row, column, piece, board);
