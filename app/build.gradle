@@ -38,7 +38,7 @@ dependencies {
 }
 
 // Define the main class for the application
-mainClassName = 'connect_four.App'
+mainClassName = 'connect_four.Main'
 
 jacocoTestReport {
     reports {
