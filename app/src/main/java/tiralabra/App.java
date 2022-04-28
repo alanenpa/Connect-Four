@@ -2,7 +2,6 @@
 package tiralabra;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -45,7 +44,7 @@ public class App {
             } else {
                 System.out.println("It's O's turn!");
                 piece = AI_PIECE;
-                int[] arr = minimax(5, piece, board);
+                int[] arr = minimax(15, piece, Integer.MIN_VALUE, Integer.MAX_VALUE,  board);
                 int column = arr[0];
                 int row = getNextOpenRow(column, board);
                 dropPiece(row, column, piece, board);
@@ -250,7 +249,7 @@ public class App {
     }
 
     // col, score
-    public static int[] minimax(int depth, char piece, char[][] board) {
+    public static int[] minimax(int depth, char piece, int alpha, int beta, char[][] board) {
         int[] ord = {3,4,2,5,1,6,0};
         for (int i : ord) {
             int nextRow = getNextOpenRow(i, board);
@@ -270,33 +269,41 @@ public class App {
             return new int[] {-1, 0};
         }
         if (piece == PLAYER_PIECE) { // maximizing player
-            int score = -999999999;
+            int score = Integer.MIN_VALUE;
             int bestMove = -1;
             for (int i : ord) {
                 int nextRow = getNextOpenRow(i, board);
                 if (nextRow == -1) continue;
                 dropPiece(nextRow, i, PLAYER_PIECE, board);
-                int newScore = minimax(depth-1, AI_PIECE, board)[1];
+                int newScore = minimax(depth-1, AI_PIECE, alpha, beta, board)[1];
+                removePiece(nextRow, i, board);
                 if (newScore > score) {
                     score = newScore;
                     bestMove = i;
                 }
-                removePiece(nextRow, i, board);
+                alpha = Math.max(alpha, score);
+                if (score >= beta) {
+                    break;
+                }
             }
             return new int[] {bestMove, score};
         } else { // AI_PIECE, minimizing player
-            int score = 999999999;
+            int score = Integer.MAX_VALUE;
             int bestMove = -1;
             for (int i : ord) {
                 int nextRow = getNextOpenRow(i, board);
                 if (nextRow == -1) continue;
                 dropPiece(nextRow, i, AI_PIECE, board);
-                int newScore = minimax(depth-1, PLAYER_PIECE, board)[1];
+                int newScore = minimax(depth-1, PLAYER_PIECE, alpha, beta, board)[1];
+                removePiece(nextRow, i, board);
                 if (newScore < score) {
                     score = newScore;
                     bestMove = i;
                 }
-                removePiece(nextRow, i, board);
+                beta = Math.min(alpha, score);
+                if (score <= alpha) {
+                    break;
+                }
             }
             return new int[] {bestMove, score};
         }
