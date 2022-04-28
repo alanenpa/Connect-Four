@@ -8,4 +8,4 @@
  */
 
 rootProject.name = "Tiralabra"
-include("app")
+include("connect_four")
