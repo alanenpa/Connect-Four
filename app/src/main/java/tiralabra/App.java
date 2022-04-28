@@ -61,34 +61,6 @@ public class App {
         System.out.println("Thanks for playing!");
     }
 
-
-//    public static int pickBestMove(char[][] board, char piece, int column) {
-//        int max = 0;
-//        char[][] boardCopy;
-//        ArrayList<Integer> validLocations = getValidLocations(board);
-//        System.out.println("Scores:");
-//        for (int col : validLocations) {
-//            boardCopy = deepCopy(board);
-//            int score = dropAndGetScore(boardCopy, piece, col);
-//            System.out.println(score + ", " + col);
-//            if (score > max) {
-//                max = score;
-//                System.out.println("improved!");
-//                column = col;
-//            }
-//        }
-//        System.out.println("BEST MOVE: " + column);
-//        return column;
-//    }
-
-//    private static int dropAndGetScore(char[][] boardCopy, char piece, int col) {
-//        int row = getNextOpenRow(col, boardCopy);
-//        dropPiece(row, col, piece, boardCopy);
-////        int score = scorePosition(row, col, piece, boardCopy);
-//        int score = minimax(row, col, 2, piece, boardCopy);
-//        return score;
-//    }
-
     /**
      * Initializes the 7x6 gameboard.
      */
