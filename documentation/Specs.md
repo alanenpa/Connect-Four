@@ -17,11 +17,11 @@ each node will examine b^2 grandchildren.
 
 ### Input and output
 
-The project uses a command line interface. On his turn, the player chooses the column where his next disc "drops".
+The project uses a command line interface. On his turn, the player chooses the column where his next piece "drops".
 
 ### Study programme
 Computer science (BSc)
 
 ### Sources
-- https://en.wikipedia.org/wiki/Minimax
-- https://www.youtube.com/watch?v=l-hh51ncgDI
+- [Minimax](https://en.wikipedia.org/wiki/Minimax)
+- [Algorithms Explained – minimax and alpha-beta pruning](https://www.youtube.com/watch?v=l-hh51ncgDI)
