@@ -18,6 +18,8 @@ public class Utils {
             if (inputInt >= 1 && inputInt <= 7) {
                 return inputInt-1;
             }
+        } else if (input.equals("q")) {
+            return -2;
         }
         return -1;
     }
