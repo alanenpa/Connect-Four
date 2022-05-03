@@ -7,11 +7,14 @@ public class AI {
     static final char PLAYER_PIECE = 'X';
     static final char AI_PIECE = 'O';
 
-    public static int[] CHECK_ORDER = {3,4,2,5,1,6,0};
+    /**
+     * The order where the board columns are checked. It is best to start from the middle, because there are the most possibilities for a row of four.
+     */
+    public static int[] COL_ORDER = {3,4,2,5,1,6,0};
 
     // col, score
     public static int[] minimax(int depth, char piece, int alpha, int beta, char[][] board) {
-        for (int i : CHECK_ORDER) {
+        for (int i : COL_ORDER) {
             int nextRow = getNextOpenRow(i, board);
             if (nextRow == -1) continue;
             dropPiece(nextRow, i, piece, board);
@@ -32,7 +35,7 @@ public class AI {
         int bestMove = -1;
         if (piece == PLAYER_PIECE) { // maximizing player
             score = Integer.MIN_VALUE;
-            for (int i : CHECK_ORDER) {
+            for (int i : COL_ORDER) {
                 int nextRow = getNextOpenRow(i, board);
                 if (nextRow == -1) continue;
                 dropPiece(nextRow, i, PLAYER_PIECE, board);
@@ -49,7 +52,7 @@ public class AI {
             }
         } else { // AI_PIECE, minimizing player
             score = Integer.MAX_VALUE;
-            for (int i : CHECK_ORDER) {
+            for (int i : COL_ORDER) {
                 int nextRow = getNextOpenRow(i, board);
                 if (nextRow == -1) continue;
                 dropPiece(nextRow, i, AI_PIECE, board);
