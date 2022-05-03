@@ -28,3 +28,8 @@
 
 Approx. 12 hours.
 
+## Week 6
+
+Approx. 10 hours.
+
+
