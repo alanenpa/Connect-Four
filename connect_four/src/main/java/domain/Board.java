@@ -6,6 +6,9 @@ public class Board {
 
     static final int HEIGHT = 6;
     static final int WIDTH = 7;
+    /**
+     * An empty gameboard grid row used in initializing.
+     */
     static final String GRID_ROW = "       ";
 
     /**
@@ -27,7 +30,8 @@ public class Board {
     }
 
     /**
-     * Marks the board with current players disc.
+     * Drops players piece on the board in a chosen column.
+     * The row parameter is never arbitrary as it's always chosen by getNextOpenRow.
      *
      * @param col column number
      * @param piece current players piece (or disc): 'X' or 'O'
@@ -54,8 +58,19 @@ public class Board {
         return validLocations;
     }
 
+    /**
+     * Checks if a move connect four in a row by going through all possible directions where a row of four could be possible.
+     * One for-loop loops through both ways on an axis.
+     * The method as a counter for every axis. It resets every time opponent's piece or an empty slot is encountered.
+     * When the counter reacher 4, the method returns true.
+     * @param row row coordinate
+     * @param col column coordinate
+     * @param piece 'X' or 'O'
+     * @param board board which is used for the game
+     * @return true or false depending if the move given to the method is a winning move
+     */
     public static boolean isAWinningMove(int row, int col, char piece, char[][] board) {
-        // check rows
+        // rows
         int counter = 0;
         for (int i = -3; i < 4; i++) {
             if ((col+i) >= 0 && (col+i) < 7) {
@@ -67,7 +82,7 @@ public class Board {
                 if (counter == 4) return true;
             }
         }
-        // check columns
+        // columns
         counter = 0;
         for (int i = -3; i < 4; i++) {
             if ((row+i) >= 0 && (row+i) < 6) {
@@ -80,7 +95,7 @@ public class Board {
             }
         }
         if (notInCornersAscending(row, col)) {
-            // check ascending diagonals
+            // ascending diagonals
             counter = 0;
             for (int i = -3; i < 4; i++) {
                 if (indexNotWithinBoundsAsceding(row, col, i)) {
@@ -96,7 +111,7 @@ public class Board {
             }
         }
         if (notInCornersDescending(row, col)) {
-            // check descending diagonals
+            // descending diagonals
             counter = 0;
             for (int i = -3; i < 4; i++) {
                 if (indexNotWithinBoundsDesceding(row, col, i)) {
@@ -123,6 +138,12 @@ public class Board {
     }
 
 
+    /**
+     * The method checks if a move is in the corners of the gameboard where an asceding row of four could never form.
+     * @param row row coordinate
+     * @param col column coordinate
+     * @return true or false
+     */
     public static boolean notInCornersAscending(int row, int col) {
         return notInUpperLeftCorner(row, col) && notInLowerRightCorner(row, col);
     }
@@ -135,6 +156,12 @@ public class Board {
         return (col != 4 || row <= 4) && (col != 5 || row <= 3) && (col != 6 || row <= 2);
     }
 
+    /**
+     * The method checks if a move is in the corners of the gameboard where an desceding row of four could never form.
+     * @param row row coordinate
+     * @param col column coordinate
+     * @return true or false
+     */
     public static boolean notInCornersDescending(int row, int col) {
         return notInLowerLeftCorner(row, col) && notInUpperRightCorner(row, col);
     }
@@ -146,6 +173,4 @@ public class Board {
     public static boolean notInUpperRightCorner(int row, int col) {
         return (col != 4 || row >= 1) && (col != 5 || row >= 2) && (col != 6 || row >= 3);
     }
-
-
 }
