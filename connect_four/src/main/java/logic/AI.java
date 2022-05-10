@@ -6,13 +6,21 @@ public class AI {
 
     static final char PLAYER_PIECE = 'X';
     static final char AI_PIECE = 'O';
-
     /**
      * The order where the board columns are checked. It is best to start from the middle, because there are the most possibilities for a row of four.
      */
     public static int[] COL_ORDER = {3,4,2,5,1,6,0};
 
-    // col, score
+    /**
+     * The implementation of the minimax algorithm which AI uses to calculate recursively it's next move.
+     * A detailed description of the calculation can be found in the implementation document.
+     * @param depth determines the amount of turns the algorithm looks forward
+     * @param piece 'X' or 'O'
+     * @param alpha needed for alpha-beta pruning. Holds the value of a already calculated score of a move for one of the players.
+     * @param beta needed for alpha-beta pruning. Holds the value of a already calculated score of a move for one of the players.
+     * @param board board which is used for the game
+     * @return the column of best move in given depth and the score of the move. The score is only needed in recursion.
+     */
     public static int[] minimax(int depth, char piece, int alpha, int beta, char[][] board) {
         for (int i : COL_ORDER) {
             int nextRow = getNextOpenRow(i, board);
