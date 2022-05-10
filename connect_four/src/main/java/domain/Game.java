@@ -12,6 +12,10 @@ public class Game {
     static final char PLAYER_PIECE = 'X';
     static final char AI_PIECE = 'O';
 
+    /**
+     * The method in which the game is played. Players take turns in a while-loop.
+     * The game ends if the results in a win, draw or the player quits with the input 'q'.
+     */
     public static void play() {
         char[][] board = initBoard();
         Scanner scanner = new Scanner(System.in);
@@ -19,46 +23,61 @@ public class Game {
         int row;
         int column;
         boolean gameOver = false;
-        System.out.println("quit the game with q");
-        print(board);
 
         while (!gameOver) {
+            print(board);
             announceTurn(piece);
             column = pickColumn(board, scanner, piece);
             if (column == -1) {
                 System.out.println("Invalid input!");
-                print(board);
-                continue;
             } else if (column == -2) {
                 // quitting game with 'q'
                 gameOver = true;
-                continue;
-            }
-            if (isValidLocation(column, board)) {
-                row = useTurn(board, piece, column);
-                if (isAWinningMove(row, column, piece, board)) {
-                    System.out.println(piece + " wins!");
-                    gameOver = true;
-                }
             } else {
-                continue;
-            }
-            piece = piece == PLAYER_PIECE ? AI_PIECE : PLAYER_PIECE;
-            if (getValidLocations(board).size() == 0) {
-                System.out.println("It's a draw");
+                if (isValidLocation(column, board)) {
+                    row = useTurn(board, piece, column);
+                    if (isAWinningMove(row, column, piece, board)) {
+                        System.out.println(piece + " wins!");
+                        gameOver = true;
+                    } else if (getValidLocations(board).size() == 0) {
+                        System.out.println("It's a draw!");
+                        gameOver = true;
+                    } else {
+                        piece = piece == PLAYER_PIECE ? AI_PIECE : PLAYER_PIECE;
+                    }
+                } else {
+                    System.out.println("The column " + (column+1) + " is full!");
+                }
             }
         }
+
+        print(board);
         System.out.println("Thanks for playing!");
     }
 
+    /**
+     * Drops current player's piece in the next open row in the chosen column.
+     * Row coordinate is returned for the win check method.
+     * @param board board which is used for the game
+     * @param piece 'X' or 'O'
+     * @param column column coordinate
+     * @return row coordinate
+     */
     private static int useTurn(char[][] board, char piece, int column) {
         int row;
         row = getNextOpenRow(column, board);
         dropPiece(row, column, piece, board);
-        print(board);
         return row;
     }
 
+    /**
+     * Determines the column in which the next move is played. If the current player is the user, the column is read from keyboard input.
+     * If the current player is the AI, minimax algorithm is used to determine the best move available, given the depth.
+     * @param board board which is used for the game
+     * @param scanner used to read keyboard input
+     * @param piece 'X' or 'O'
+     * @return the chosen column for next move
+     */
     private static int pickColumn(char[][] board, Scanner scanner, char piece) {
         int column;
         if (piece == PLAYER_PIECE) {
