@@ -7,7 +7,7 @@ The game is played on a two-dimensional (7x6) char array. The array stores the c
 
 ### AI
 
-AI calculates it's moves with minimax. This is done by looking a certain amount of moves ahead and finding out which orders The algorithm returns the value and column index of the best move
+AI calculates it's moves with minimax. This is done by looking a certain amount of moves ahead and finding out which moves will lead to the quickest win. The algorithm returns the value and column index of the best move
 possible move at given depth. The main game loop has only use for the column index of the best move but the returned value is needed
 in recursion in order to minimax compare moves and find the best one. Alpha-beta pruning improves the efficiency of the algorithm as it prevents calculating
 positions (or "branches") which will not be played because a better option has already been found.
@@ -25,12 +25,10 @@ The calculation works as follows:
 
 The game has a basic command-line interface for UI. The game outputs the board after every move, announces turns and wins.
 
-### Implemented time and space complexities
-
 ### Possible flaws and improvements
 
 The minimax algorithm could possibly be refactored to get rid of some duplicated code by using -1 and 1 instead of chars to identify the players.
-The game loop should be divided further into separate classes for game loop and UI to increase cohesion.
+Testing of the algorithm was not implemented.
 
 ### Sources
 - [Tirakirja](https://www.cs.helsinki.fi/u/ahslaaks/tirakirja/) by Antti Laaksonen
