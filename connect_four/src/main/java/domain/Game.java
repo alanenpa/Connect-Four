@@ -22,6 +22,7 @@ public class Game {
         char piece = Math.random() < 0.5 ? 'X' : 'O';
         int row;
         int column;
+        int totalMoves = 0;
         boolean gameOver = false;
 
         while (!gameOver) {
@@ -36,10 +37,11 @@ public class Game {
             } else {
                 if (isValidLocation(column, board)) {
                     row = useTurn(board, piece, column);
+                    totalMoves++;
                     if (isAWinningMove(row, column, piece, board)) {
                         System.out.println(piece + " wins!");
                         gameOver = true;
-                    } else if (getValidLocations(board).size() == 0) {
+                    } else if (totalMoves == 42) {
                         System.out.println("It's a draw!");
                         gameOver = true;
                     } else {
@@ -84,7 +86,7 @@ public class Game {
             String input = scanner.nextLine();
             column = validateInput(input);
         } else {
-            int[] arr = minimax(8, piece, Integer.MIN_VALUE, Integer.MAX_VALUE, board);
+            int[] arr = minimax(10, piece, Integer.MIN_VALUE, Integer.MAX_VALUE, board);
             column = arr[0];
         }
         return column;
