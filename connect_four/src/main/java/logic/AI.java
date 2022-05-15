@@ -1,6 +1,7 @@
 package logic;
 
 import static domain.Board.*;
+import static utils.Utils.print;
 
 public class AI {
 
@@ -26,12 +27,12 @@ public class AI {
             int nextRow = getNextOpenRow(i, board);
             if (nextRow == -1) continue;
             dropPiece(nextRow, i, piece, board);
-            if (isAWinningMove(nextRow, i, PLAYER_PIECE, board) || isAWinningMove(nextRow, i, AI_PIECE, board)) {
+            if (isAWinningMove(nextRow, i, piece, board)) {
                 removePiece(nextRow, i, board);
                 if (piece == PLAYER_PIECE) {
-                    return new int[] {i, 10000000-depth};
+                    return new int[] {i, 1000+depth};
                 } else {
-                    return new int[] {i, -10000000+depth};
+                    return new int[] {i, -1000-depth};
                 }
             }
             removePiece(nextRow, i, board);
