@@ -48,10 +48,17 @@ jacocoTestReport {
     }
 }
 
-
 run {
     standardInput = System.in
     standardOutput = System.out
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'connect_four.Main'
+        )
+    }
 }
 
 check.dependsOn jacocoTestReport
