@@ -1,17 +1,18 @@
-package connect_four;
+package domain;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 import static domain.Board.*;
+import static test_utils.UtilsForTests.*;
 import static utils.Utils.*;
 
 public class BoardTest {
     private char[][] board;
 
     @Before
-    public void init() {
+    public void setUp() {
         board = initBoard();
     }
 
@@ -68,7 +69,7 @@ public class BoardTest {
     public void horizontallyConnectedFourwins() {
         int[] moves = {3,3,6,5,0,6,1,5,4};
         int turn = 0;
-        char piece = 'O';
+        char piece;
         for (int i = 0; i < moves.length; i++) {
             piece = turn == 0 ? 'O' : 'X';
             int row = getNextOpenRow(moves[i], board);
@@ -93,7 +94,7 @@ public class BoardTest {
     public void verticallyConnectedFourwins() {
         int[] moves = {2,3,2,5,2,6};
         int turn = 0;
-        char piece = 'O';
+        char piece;
         for (int i = 0; i < moves.length; i++) {
             piece = turn == 0 ? 'O' : 'X';
             int row = getNextOpenRow(moves[i], board);
@@ -118,7 +119,7 @@ public class BoardTest {
     public void DiagonallyAscendingConnectedFourwins() {
         int[] moves = {2,2,3,0,3,3,4,4,4,4,6,5,5,5,0,5,6};
         int turn = 0;
-        char piece = 'O';
+        char piece;
         for (int i = 0; i < moves.length; i++) {
             piece = turn == 0 ? 'O' : 'X';
             int row = getNextOpenRow(moves[i], board);
@@ -143,7 +144,7 @@ public class BoardTest {
     public void DiagonallyDescendingConnectedFourwins() {
         int[] moves = {0,0,0,0,4,3,2,2,5,1,1};
         int turn = 0;
-        char piece = 'O';
+        char piece;
         for (int i = 0; i < moves.length; i++) {
             piece = turn == 0 ? 'O' : 'X';
             int row = getNextOpenRow(moves[i], board);
@@ -167,7 +168,7 @@ public class BoardTest {
     @Test
     public void DiagonallyAscedingUpperCornerCase() {
         int[] moves = {0,0,0,1,1,1,1,2,2,2,2,3,2,3,3,3,3,4,3};
-        play(moves);
+        makeMoves(moves, board);
         print(board);
         assertTrue(isAWinningMove(0, 3, 'O', board));
         // Final situation
@@ -182,7 +183,7 @@ public class BoardTest {
     @Test
     public void DiagonallyAscedingLowerCornerCase() {
         int[] moves = {3,4,4,6,5,5,5,2,6,6,6};
-        play(moves);
+        makeMoves(moves, board);
         assertTrue(isAWinningMove(2, 6, 'O', board));
         // Final situation
         // |   |   |   |   |   |   |   |
@@ -197,7 +198,7 @@ public class BoardTest {
     @Test
     public void DiagonallyDescendingUpperCornerCase() {
         int[] moves = {3,4,3,3,3,3,3,4,4,4,4,5,5,5,5,0,6,6,6};
-        play(moves);
+        makeMoves(moves, board);
         assertTrue(isAWinningMove(3, 6, 'O', board));
         // Final situation
         // |   |   |   | O |   |   |   |
@@ -208,17 +209,4 @@ public class BoardTest {
         // | X |   |   | O | X | X | O |
     }
 
-
-
-    private void play(int[] moves) {
-        int turn = 0;
-        char piece;
-        for (int move : moves) {
-            piece = turn == 0 ? 'O' : 'X';
-            int row = getNextOpenRow(move, board);
-            dropPiece(row, move, piece, board);
-            turn++;
-            turn = turn % 2;
-        }
-    }
 }
